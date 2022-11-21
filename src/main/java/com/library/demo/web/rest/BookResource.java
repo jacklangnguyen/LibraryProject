@@ -5,7 +5,7 @@ import com.library.demo.dto.response.PageResponse;
 import com.library.demo.dto.response.ServiceResponse;
 import com.library.demo.entity.Book;
 import com.library.demo.web.rest.request.BookRequest;
-import com.library.demo.web.rest.request.DeleteBookListRequest;
+import com.library.demo.web.rest.request.BookListDeleteRequest;
 import com.library.demo.web.rest.request.PageCriteriaRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -40,8 +40,8 @@ public interface BookResource {
     @PutMapping("update")
     ServiceResponse<Book> updateBook(@RequestBody BookRequest bookRequest) ;
 
-    @ApiOperation(value = "delete User")
+    @ApiOperation(value = "delete Book")
     @DeleteMapping("delete")
-    ServiceResponse<HttpStatus> deleteBook ( @RequestBody DeleteBookListRequest ids);
+    ServiceResponse<HttpStatus> deleteBook ( @RequestBody BookListDeleteRequest ids);
 }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class DeleteBookListRequest {
+public class CheckoutBookListDeleteRequest {
 
     private List<String> ids = new ArrayList<>();
 }

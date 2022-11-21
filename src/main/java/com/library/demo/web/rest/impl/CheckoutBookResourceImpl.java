@@ -3,13 +3,15 @@ package com.library.demo.web.rest.impl;
 import com.library.demo.dto.response.PageResponse;
 import com.library.demo.dto.response.ServiceResponse;
 import com.library.demo.entity.Book;
+import com.library.demo.entity.CheckoutBook;
 import com.library.demo.resolver.PageCriteriaValidator;
-import com.library.demo.service.BookService;
+import com.library.demo.service.CheckoutBookService;
 import com.library.demo.utils.exception.DataConflictException;
 import com.library.demo.utils.exception.DataNotFoundException;
-import com.library.demo.web.rest.BookResource;
-import com.library.demo.web.rest.request.BookRequest;
-import com.library.demo.web.rest.request.BookListDeleteRequest;
+import com.library.demo.web.rest.CheckoutBookResource;
+import com.library.demo.web.rest.request.CheckoutBookListDeleteRequest;
+import com.library.demo.web.rest.request.CheckoutBookRequest;
+import com.library.demo.web.rest.request.CheckoutBookUpdateRequest;
 import com.library.demo.web.rest.request.PageCriteriaRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,58 +21,56 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-public class BookResourceImpl implements BookResource {
+public class CheckoutBookResourceImpl implements CheckoutBookResource {
 
-    private final BookService bookService;
+    private final CheckoutBookService checkoutBookService;
 
-    public BookResourceImpl(BookService bookService) {
-        this.bookService = bookService;
+    public CheckoutBookResourceImpl(CheckoutBookService checkoutBookService) {
+        this.checkoutBookService = checkoutBookService;
     }
 
     @PageCriteriaValidator
     @Override
-    public ServiceResponse<PageResponse<Book>> getBookList(String keyWord, @Valid PageCriteriaRequest pageCriteriaRequest) {
-        log.debug("Rest get Book List");
-        PageResponse<Book> response = bookService.getBookList(keyWord, pageCriteriaRequest.getPageCriteria());
+    public ServiceResponse<PageResponse<CheckoutBook>> getBookList(String keyWord, @Valid PageCriteriaRequest pageCriteriaRequest) {
+        log.debug("Rest get Checkout Book List");
+        PageResponse<CheckoutBook> response = checkoutBookService.getCheckoutBookList(keyWord, pageCriteriaRequest.getPageCriteria());
         return ServiceResponse.succed(HttpStatus.OK, response);
-
     }
 
     @Override
-    public ServiceResponse<Book> addBook(BookRequest bookRequest) {
+    public ServiceResponse<CheckoutBook> addBook(CheckoutBookRequest checkoutBookRequest) {
         log.debug("Rest add Book");
         try {
-            Book response = bookService.addBook(bookRequest.toBook());
+            CheckoutBook response = checkoutBookService.addCheckoutBook(checkoutBookRequest.toCheckoutBook());
             return ServiceResponse.succed(HttpStatus.OK, response);
         } catch (DataConflictException cx) {
             return ServiceResponse.error(HttpStatus.CONFLICT, "DATA CONFLICT");
         }
+
     }
 
     @Override
-    public ServiceResponse<Book> updateBook(BookRequest bookRequest) {
+    public ServiceResponse<CheckoutBook> updateBook(@Valid CheckoutBookUpdateRequest checkoutBookUpdateRequest) {
         log.debug("Rest update Book");
         try {
-            Book response = bookService.updateBook(bookRequest.toBook());
+            CheckoutBook response = checkoutBookService.updateCheckoutBook(checkoutBookUpdateRequest.toCheckoutBook());
             return ServiceResponse.succed(HttpStatus.OK, response);
         } catch (DataNotFoundException ex) {
             return ServiceResponse.error(HttpStatus.NOT_FOUND, "DATA NOT FOUND");
         } catch (DataConflictException cx) {
             return ServiceResponse.error(HttpStatus.CONFLICT, "DATA CONFLICT");
         }
-
     }
 
     @Override
-    public ServiceResponse<HttpStatus> deleteBook(BookListDeleteRequest ids) {
+    public ServiceResponse<HttpStatus> deleteBook(CheckoutBookListDeleteRequest ids) {
         log.debug("Rest delete Id List");
         try {
-            this.bookService.deleteBook(ids.getIds());
+            this.checkoutBookService.deleteBook(ids.getIds());
             return ServiceResponse.succed(HttpStatus.OK, null);
 
         } catch (DataNotFoundException ex) {
             return ServiceResponse.error(HttpStatus.NOT_FOUND, "Data Not Found");// (HttpStatus.NOT_FOUND, "DATA NOT FOUND");
         }
-
     }
 }
