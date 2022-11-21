@@ -35,7 +35,7 @@ public class UserAcountResourceImpl implements UserAcountResource {
 
     @Override
     public ServiceResponse<UserAcount> updateUserAcount(UserAcountRequest request) {
-        log.debug("Rest update Book");
+        log.debug("Rest update User Acount");
         try {
             UserAcount response = userAcountService.updateUserAcount(request.toUserAcount());
             return ServiceResponse.succed(HttpStatus.OK, response);
