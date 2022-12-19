@@ -16,4 +16,6 @@ public interface BookService {
     Book updateBook(Book book) throws DataNotFoundException, DataConflictException;
 
     void deleteBook(List<String> ids) throws DataNotFoundException;
+
+    Book getBook(String bookId) throws  DataNotFoundException;
 }

@@ -8,7 +8,9 @@ import java.time.OffsetDateTime;
 
 @Data
 @Entity
-@Table
+@Table(uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"userId", "bookId"})
+        })
 public class CheckoutBookEntity extends AuditEntity{
 
     @Id
@@ -27,6 +29,7 @@ public class CheckoutBookEntity extends AuditEntity{
 
     public CheckoutBook toCheckoutBook(){
         return CheckoutBook.builder()
+                .id(String.valueOf(this.id))
                 .bookId(this.bookId)
                 .bookName(this.bookName)
                 .userId(this.userId)

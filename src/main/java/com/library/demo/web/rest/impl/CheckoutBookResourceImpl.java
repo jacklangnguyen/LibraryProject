@@ -15,10 +15,12 @@ import com.library.demo.web.rest.request.CheckoutBookUpdateRequest;
 import com.library.demo.web.rest.request.PageCriteriaRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @Slf4j
 @RestController
 public class CheckoutBookResourceImpl implements CheckoutBookResource {
@@ -35,6 +37,19 @@ public class CheckoutBookResourceImpl implements CheckoutBookResource {
         log.debug("Rest get Checkout Book List");
         PageResponse<CheckoutBook> response = checkoutBookService.getCheckoutBookList(keyWord, pageCriteriaRequest.getPageCriteria());
         return ServiceResponse.succed(HttpStatus.OK, response);
+    }
+
+    @Override
+    public ServiceResponse<CheckoutBook> getCheckoutBook(String checkoutBookId) {
+        log.debug("Rest get Book");
+        try {
+            CheckoutBook response = checkoutBookService.getCheckoutBook(checkoutBookId);
+            return ServiceResponse.succed(HttpStatus.OK, response);
+        } catch (DataNotFoundException ex) {
+            return ServiceResponse.error(HttpStatus.NOT_FOUND, "DATA NOT FOUND");
+
+        }
+
     }
 
     @Override

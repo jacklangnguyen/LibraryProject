@@ -58,6 +58,18 @@ public class BookServiceImpl implements BookService {
                 pageCriteria.getPage(), pageCriteria.getLimit());
     }
 
+    @Override
+    public Book getBook(String bookId)  throws  DataNotFoundException{
+        log.debug("Rest request get book");
+        try {
+            BookEntity bookEntity = this.entityManager.getReference(BookEntity.class, Long.parseLong(bookId));
+        return bookEntity.toBook();
+        }catch (EntityNotFoundException exn){
+                throw new DataNotFoundException(bookId);
+            }
+
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Book addBook(Book book) throws DataConflictException {

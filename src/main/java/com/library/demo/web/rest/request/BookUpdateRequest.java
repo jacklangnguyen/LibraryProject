@@ -1,20 +1,18 @@
 package com.library.demo.web.rest.request;
 
-
 import com.library.demo.entity.Book;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@Setter
 @Getter
-public class BookRequest {
+@Setter
+public class BookUpdateRequest {
 
+    @NotBlank
     private String id;
-    @NotBlank
     private String bookId;
-    @NotBlank
     private String bookName;
     private String bookTopic;
     private String bookPublisher;
@@ -29,5 +27,4 @@ public class BookRequest {
                 .bookPublisher(this.bookPublisher)
                 .bookAuthor(this.bookAuthor).build();
     }
-
 }

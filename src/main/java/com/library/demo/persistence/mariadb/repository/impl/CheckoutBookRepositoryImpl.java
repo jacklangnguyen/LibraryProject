@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,8 +48,8 @@ public class CheckoutBookRepositoryImpl implements CheckoutBookRepositoryCustom 
             Predicate bookId = cb.like(root.get("bookId"), String.format("%%%s%%", keyword));
             Predicate userId = cb.like(root.get("userId"), String.format("%%%s%%", keyword));
             Predicate userName = cb.like(root.get("userName"), String.format("%%%s%%", keyword));
-            Predicate dayCheckoutBook  = cb.like(root.get("dayCheckoutBook"), String.format("%%%s%%", keyword));
-            predicates.add(cb.or(bookName, bookId, userId, userName, dayCheckoutBook));
+//            Predicate dayCheckoutBook  = cb.like(root.get("dayCheckoutBook"), OffsetDateTime.parse(keyword));
+            predicates.add(cb.or(bookName, bookId, userId, userName));
         }
 
         Sort sort = pageable.getSort();
@@ -89,8 +90,8 @@ public class CheckoutBookRepositoryImpl implements CheckoutBookRepositoryCustom 
             Predicate bookId = cb.like(rootCount.get("bookId"), String.format("%%%s%%", keyword));
             Predicate userId = cb.like(rootCount.get("userId"), String.format("%%%s%%", keyword));
             Predicate userName = cb.like(rootCount.get("userName"), String.format("%%%s%%", keyword));
-            Predicate dayCheckoutBook  = cb.like(rootCount.get("dayCheckoutBook"), String.format("%%%s%%", keyword));
-            predicates.add(cb.or(bookName, bookId, userId, userName, dayCheckoutBook));
+//            Predicate dayCheckoutBook  = cb.like(rootCount.get("dayCheckoutBook"), String.format("%%%s%%", keyword));
+            predicates.add(cb.or(bookName, bookId, userId, userName));
         }
 
         countQuery.select(cb.count(rootCount)).where(predicates.toArray(new Predicate[]{}));

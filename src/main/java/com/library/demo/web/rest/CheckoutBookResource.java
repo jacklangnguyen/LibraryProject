@@ -3,6 +3,7 @@ package com.library.demo.web.rest;
 
 import com.library.demo.dto.response.PageResponse;
 import com.library.demo.dto.response.ServiceResponse;
+import com.library.demo.entity.Book;
 import com.library.demo.entity.CheckoutBook;
 import com.library.demo.web.rest.request.*;
 import io.swagger.annotations.Api;
@@ -27,17 +28,19 @@ public interface CheckoutBookResource {
             @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query")})
     ServiceResponse<PageResponse<CheckoutBook>> getBookList(@RequestParam(required = false) String keyWord , @Valid @ApiIgnore PageCriteriaRequest pageCriteriaRequest);
 
+    @ApiOperation(value = "get book follow id")
+    @GetMapping()
+    ServiceResponse<CheckoutBook> getCheckoutBook(@RequestParam String checkoutBookId) ;
 
     @ApiOperation(value = "add checkout book")
     @PostMapping("add")
-    ServiceResponse<CheckoutBook> addBook( @RequestBody CheckoutBookRequest checkoutBookRequest);
-
+    ServiceResponse<CheckoutBook> addBook( @Valid @RequestBody CheckoutBookRequest checkoutBookRequest);
 
     @ApiOperation(value = "update checkout book information")
     @PutMapping("update")
     ServiceResponse<CheckoutBook> updateBook(@Valid @RequestBody CheckoutBookUpdateRequest checkoutBookUpdateRequest) ;
 
     @ApiOperation(value = "delete checkout Book")
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     ServiceResponse<HttpStatus> deleteBook (@RequestBody CheckoutBookListDeleteRequest ids);
 }

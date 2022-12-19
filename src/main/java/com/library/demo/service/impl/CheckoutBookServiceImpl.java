@@ -61,6 +61,17 @@ public class CheckoutBookServiceImpl implements CheckoutBookService {
                 pageCriteria.getPage(), pageCriteria.getLimit());
     }
 
+    @Override
+    public CheckoutBook getCheckoutBook(String checkoutBookId) throws  DataNotFoundException {
+        log.debug("Rest request get book");
+        try {
+            CheckoutBookEntity checkoutBookEntity = this.entityManager.getReference(CheckoutBookEntity.class, Long.parseLong(checkoutBookId));
+            return checkoutBookEntity.toCheckoutBook();
+        }catch (EntityNotFoundException exn){
+            throw new DataNotFoundException(checkoutBookId);
+        }
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public CheckoutBook addCheckoutBook(CheckoutBook checkoutBook) throws DataConflictException {

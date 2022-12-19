@@ -6,6 +6,7 @@ import com.library.demo.dto.response.ServiceResponse;
 import com.library.demo.entity.Book;
 import com.library.demo.web.rest.request.BookRequest;
 import com.library.demo.web.rest.request.BookListDeleteRequest;
+import com.library.demo.web.rest.request.BookUpdateRequest;
 import com.library.demo.web.rest.request.PageCriteriaRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -30,18 +31,21 @@ public interface BookResource {
             @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query")})
     ServiceResponse<PageResponse<Book>> getBookList(@RequestParam(required = false) String keyWord , @Valid @ApiIgnore PageCriteriaRequest pageCriteriaRequest);
 
+    @ApiOperation(value = "get book follow id")
+    @GetMapping()
+    ServiceResponse<Book> getBook(@RequestParam String bookId) ;
 
     @ApiOperation(value = "add book")
     @PostMapping("add")
-    ServiceResponse<Book> addBook( @RequestBody BookRequest bookRequest);
+    ServiceResponse<Book> addBook(@Valid @RequestBody BookRequest bookRequest);
 
 
     @ApiOperation(value = "update book information")
     @PutMapping("update")
-    ServiceResponse<Book> updateBook(@RequestBody BookRequest bookRequest) ;
+    ServiceResponse<Book> updateBook(@Valid @RequestBody BookUpdateRequest bookRequest) ;
 
     @ApiOperation(value = "delete Book")
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     ServiceResponse<HttpStatus> deleteBook ( @RequestBody BookListDeleteRequest ids);
 }
 
